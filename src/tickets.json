@@ -1,0 +1,23 @@
+[
+  {
+    "id": "#TK-2001",
+    "temat": "Brak internetu w sali 104",
+    "klient": "Marek Nowak",
+    "status": "Otwarte",
+    "priorytet": "Wysoki"
+  },
+  {
+    "id": "#TK-2002",
+    "temat": "Nie działa projektor",
+    "klient": "Katarzyna Wiśniewska",
+    "status": "W toku",
+    "priorytet": "Średni"
+  },
+  {
+    "id": "#TK-2003",
+    "temat": "Instalacja edytora kodu",
+    "klient": "Tomasz Lewandowski",
+    "status": "Rozwiązane",
+    "priorytet": "Niski"
+  }
+]

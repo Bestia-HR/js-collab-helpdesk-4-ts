@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Help Desk - Panel Zgłoszeń</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-slate-50 font-sans text-slate-900 antialiased">
+    <div class="flex h-screen overflow-hidden">
+      <main class="flex-1 flex flex-col overflow-y-auto">
+        <header
+          class="bg-white border-b border-slate-200 min-h-16 py-3 flex items-center justify-between px-6 gap-2 flex-wrap">
+          <h1 class="text-xl font-semibold text-slate-800">
+            Przegląd zgłoszeń
+          </h1>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <label
+              id="label-import-plik"
+              class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded-lg font-medium text-sm cursor-pointer">
+              Import z pliku (JSON)
+              <input
+                type="file"
+                id="input-import-plik"
+                accept=".json,application/json"
+                class="hidden" />
+            </label>
+
+            <button
+              id="btn-eksport-json"
+              type="button"
+              class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
+              <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
+              Eksport do pliku (JSON)
+            </button>
+
+            <button
+              id="btn-nowe-zgloszenie"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 shadow-sm transition">
+              <i data-lucide="plus" class="w-4 h-4"></i> Nowe zgłoszenie
+            </button>
+          </div>
+        </header>
+
+        <div class="p-6 max-w-7xl w-full mx-auto space-y-6">
+          <div
+            id="komunikat-box"
+            class="hidden p-4 rounded-lg border text-sm font-medium"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+              class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <p class="text-sm font-medium text-slate-500">
+                Otwarte zgłoszenia
+              </p>
+              <h3
+                id="licznik-otwarte"
+                class="text-3xl font-bold text-slate-800 mt-1">
+                0
+              </h3>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <p class="text-sm font-medium text-slate-500">
+                W trakcie realizacji
+              </p>
+              <h3
+                id="licznik-w-toku"
+                class="text-3xl font-bold text-amber-600 mt-1">
+                0
+              </h3>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <p class="text-sm font-medium text-slate-500">Rozwiązane</p>
+              <h3
+                id="licznik-rozwiazane"
+                class="text-3xl font-bold text-emerald-600 mt-1">
+                0
+              </h3>
+            </div>
+          </div>
+
+          <div
+            id="panel-dodawania"
+            class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hidden">
+            <h3 class="text-lg font-bold mb-4 text-slate-800">
+              Dodaj nowe zgłoszenie
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+              <input
+                type="text"
+                id="input-temat"
+                placeholder="Temat zgłoszenia..."
+                class="border p-2 rounded-lg text-sm" />
+              <input
+                type="text"
+                id="input-klient"
+                placeholder="Imię i nazwisko klienta..."
+                class="border p-2 rounded-lg text-sm" />
+              <select id="input-status" class="border p-2 rounded-lg text-sm">
+                <option value="Otwarte">Otwarte</option>
+                <option value="W toku">W toku</option>
+                <option value="Rozwiązane">Rozwiązane</option>
+              </select>
+              <select
+                id="input-priorytet"
+                class="border p-2 rounded-lg text-sm">
+                <option value="Niski">Niski</option>
+                <option value="Średni">Średni</option>
+                <option value="Wysoki">Wysoki</option>
+                <option value="Krytyczny">Krytyczny</option>
+              </select>
+            </div>
+            <div class="flex gap-2">
+              <button
+                id="btn-zapisz-formularz"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                Zapisz
+              </button>
+              <button
+                id="btn-anuluj-formularz"
+                class="bg-gray-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium">
+                Anuluj
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div
+              class="p-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <h3 class="font-semibold text-slate-700">Ostatnie tickety</h3>
+
+              <div class="flex items-center gap-2">
+                <label for="filtr-statusu" class="text-sm text-slate-500">
+                  Filtruj status:
+                </label>
+
+                <select
+                  id="filtr-statusu"
+                  class="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white">
+                  <option value="Wszystkie">Wszystkie</option>
+                  <option value="Otwarte">Otwarte</option>
+                  <option value="W toku">W toku</option>
+                  <option value="Rozwiązane">Rozwiązane</option>
+                </select>
+              </div>
+            </div>
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                  <th class="p-4">ID</th>
+                  <th class="p-4">Temat</th>
+                  <th class="p-4">Klient</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">Priorytet</th>
+                  <th class="p-4">Akcje</th>
+                </tr>
+              </thead>
+              <tbody
+                id="tabela-cialo"
+                class="divide-y divide-slate-100 text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
